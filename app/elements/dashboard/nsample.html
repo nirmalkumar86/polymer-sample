@@ -1,0 +1,86 @@
+<dom-module id="nsample-test">
+	<template>
+		<style>
+			h1{
+				color:blue;
+			}
+		</style>
+		
+		<input type="text" value="{{firstname::input}}" />
+		<input type="text" value="{{lastname::input}}" />
+		My Full Name is :::: {{fullname}}
+		
+		<button on-click="headClick">NSample</button>
+		<h1 on-click="headClick" onclick="headClicker(this)" >NSample</h1>
+		<content></content>
+		
+		<hr/>
+		
+		<paper-input label="Input label"></paper-input>
+		
+
+		
+	</template>
+	
+	<script>
+		var polObj = {
+			is: "nsample-test",
+			properties:{
+				firstname:{
+					type:String,
+					value:"nirmal",
+					// observer:'changelog'
+				},
+				lastname:{
+					type:String,
+					value:"velupillai",
+					// observer:'changelog'
+				},
+				fullname:{
+					type:String,
+					//computed:'getFullnameComputed(firstname,lastname)',
+					observer:'changelog'
+				}
+			},
+			observers:['getFullname(firstname,lastname)'],
+			ready: function(){
+				console.log(this);
+			},
+			headClick:headClicker,
+			getFullnameComputed:function(firstname,lastname){
+				return firstname + " " + lastname;
+			},
+			getFullname:function(firstname,lastname){
+				// return firstname + " " + lastname;
+				this.fullname = this.firstname + " " + this.lastname;
+			},
+			changelog:function(newval,oldval){
+				console.log("changes observed","newVal",newval,"oldVal",oldval);
+			}
+			
+		};
+		
+		Polymer(polObj);
+		
+		function headClicker(args){
+			console.log(args);
+		}
+		
+	</script>
+</dom-module>
+
+<!--<dom-module id="my-name">
+	<template>
+		<h1> Hello <span>{{name}}</span></h1>
+	</template>
+	<script>
+		HTMLImports.whenReady(function() {
+		Polymer({
+			is: "my-name", 
+			ready: function(){
+				this.name = "Brown";
+			}
+		});
+		});
+	</script>
+</dom-module>	-->

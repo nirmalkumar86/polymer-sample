@@ -1,0 +1,134 @@
+<link rel="import" href="import-all.html">
+
+<dom-module id="app-component">
+	<template>
+				
+		<style is="custom-style">
+			paper-toolbar.brand{
+				background:#102526;
+			}			
+			paper-toolbar.navigation{
+				background:#204B4D;
+			}
+			.app-menu{
+				cursor:pointer;
+			}
+			
+			paper-menu {
+				--paper-menu-background-color:#102526;
+				--paper-menu-color:#fff;
+				--paper-menu-selected-item:{
+					background:#0089FF;
+				}
+			}
+			
+			paper-drawer-panel > [drawer]{
+				height:100%;					
+			}
+			
+		</style>
+
+		<paper-drawer-panel>
+			<paper-header-panel drawer>
+				<paper-toolbar class="brand">
+					<paper-icon-button icon="home" alt="brand" title="brand"></paper-icon-button>
+				</paper-toolbar>
+
+				<!-- Drawer Content -->
+				<paper-menu class="navigation" selected="{{selectedPage}}">
+					<paper-item>
+						<paper-icon-button src="../../images/dashboard.png" alt="octocat" title="octocat"></paper-icon-button>
+						<div>Dashboard</div>
+					</paper-item>
+					<paper-item>
+						<paper-icon-button src="../../images/arrows.png" alt="octocat" title="octocat"></paper-icon-button>
+						<div>Master</div>
+					</paper-item>
+					<paper-item>
+						<paper-icon-button src="../../images/stories.png" alt="octocat" title="octocat"></paper-icon-button>
+						<div>Stories</div>
+					</paper-item>
+				</paper-menu>				
+			</paper-header-panel>
+			<paper-header-panel main>
+				<paper-toolbar class="navigation">
+					<paper-icon-button icon="menu" hidden$={{!menuhidden}} on-tap="_toggleMenu"></paper-icon-button>
+					<paper-tabs role="tablist" hidden$="{{menuhidden}}" selected="{{selectedPage}}">
+						<paper-tab role="tab" class="">
+							<paper-icon-button src="../../images/dashboard.png" alt="octocat" title="octocat"></paper-icon-button>
+							<div>Dashboard</div>
+						</paper-tab>
+						<paper-tab role="tab" class="">
+							<paper-icon-button src="../../images/arrows.png" alt="octocat" title="octocat"></paper-icon-button>
+							<div>Master</div>
+						</paper-tab>
+						<paper-tab role="tab" class="">
+							<paper-icon-button src="../../images/stories.png" alt="octocat" title="octocat"></paper-icon-button>
+							<div>Stories</div>
+						</paper-tab>
+					</paper-tabs>
+
+					<span class="title"></span>
+					<paper-toggle-button checked="{{menuhidden}}" hidden$="{{menuhidden}}"></paper-toggle-button>														
+					<paper-button role="button" tabindex="0" class="button-account">Admin</paper-button>
+					<paper-icon-button src="../../images/logout.png" alt="octocat" title="octocat"></paper-icon-button>
+															
+				</paper-toolbar>
+				<iron-pages selected="{{selectedPage}}">
+					<div>Dashboad</div>
+					<div>Master</div>
+					<div>Stories</div>
+				</iron-pages>
+			</paper-header-panel>
+		</paper-drawer-panel>
+
+
+		<!--<div class="container">		
+			<nsample-test>
+				transcluded content	
+			</nsample-test>
+			
+			<!--<nsample-test id="nsample1" firstname="Ram">
+				transcluded content	
+			</nsample-test>-->
+		<!--</div>-->
+	</template>
+	<script>
+		// document.addEventListener('WebComponentsReady', function () {
+		// 	console.log('polymer-ready');
+		// 	document.getElementById('nsample1').lastname = " Kumar";
+		// });	
+		
+		var compObj = {
+			is: "app-component",		
+			ready:function(){
+				console.log("Application bootstrapped..");
+			},
+			properties:{
+				menuhidden:{
+					type:Boolean,
+					value:true
+				},
+				selectedPage:{
+					type:Number,
+					value:0
+				}
+			},
+			_computemenuhidden:function(){
+				return this.menuhidden;
+			},
+			_toggleMenu:function(event){
+				console.log(event,this.menuhidden);
+				this.menuhidden = !this.menuhidden;
+				
+				var tabs = document.querySelector('paper-tabs');
+				console.log(tabs.selected);
+				if(tabs.selected === '0') {tabs.selected = '-1';tabs.selected = '0';}
+			}
+		};
+		
+		Polymer(compObj);
+		
+	</script>
+
+</dom-module>
